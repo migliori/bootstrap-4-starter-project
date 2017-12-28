@@ -1,0 +1,96 @@
+/**
+ *
+ * Custom variables
+ *
+ */
+
+@import '../../node_modules/bootstrap/scss/variables';
+@import '../../node_modules/bootstrap/scss/mixins';
+@import '../../node_modules/bootstrap/scss/utilities';
+
+/* Color variants - https://codepen.io/migli/pen/QaGNVp */
+
+$white: #fff;
+$black: #000;
+
+$blue: #007bff;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$pink: #e83e8c;
+$red: #dc3545;
+$orange: #fd7e14;
+$yellow: #ffc107;
+$green: #28a745;
+$teal: #20c997;
+$cyan: #17a2b8;
+$gray: #868e96;
+$gray-dark: #343a40;
+
+$color-variants: (
+    100: -10%,
+    200: -25%,
+    300: -50%,
+    400: -75%,
+    500: 100%,
+    600: 75%,
+    700: 50%,
+    800: 25%,
+    900: 15%
+);
+
+$colors: ();
+$colors: map-merge(
+
+    (
+        'blue': $blue,
+        'indigo': $indigo,
+        'purple': $purple,
+        'pink': $pink,
+        'red': $red,
+        'orange': $orange,
+        'yellow': $yellow,
+        'green': $green,
+        'teal': $teal,
+        'cyan': $cyan,
+        'white': $white,
+        'gray': $gray,
+        'gray-dark': $gray-dark
+    ),
+    $colors
+);
+
+//  Add color variants to $colors
+@each $color-name, $color in $colors {
+    @each $variant-name, $percent in $color-variants {
+        $mix-color: if($percent < 0%, white, black);
+        $colors: map-merge($colors,  ($color-name+'-'+$variant-name: mix($color, $mix-color, abs($percent))));
+    }
+}
+
+$enable-hover-media-query: true;
+
+/* from Bootstrap 4 utilities - replaced $theme-colors with $colors */
+
+// text colors
+@each $color, $value in $colors {
+    @include text-emphasis-variant('.text-#{$color}', $value);
+}
+
+// background colors
+@each $color, $value in $colors {
+    @include bg-variant('.bg-#{$color}', $value);
+}
+
+// background text contrast
+@each $color, $value in $colors {
+    .bg-#{$color} {
+        color: color-yiq($value);
+    }
+}
+
+// border colors
+@each $color, $value in $colors {
+    .border-#{$color} {
+        border-color: $value !important;
+    }
+}

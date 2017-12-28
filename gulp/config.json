@@ -1,0 +1,13 @@
+{
+    "tasksPath": "./gulp",
+
+    "baseDir": ".",
+    "baseUrl": "http://my-project",
+    "baseCombinedName": "all",
+
+    "sass": "assets/sass",
+    "css": "assets/stylesheets",
+    "scripts": "assets/javascripts",
+    "imagesSrcFolder": "assets/images/src",
+    "imagesDistFolder": "assets/images"
+}
