@@ -24,7 +24,6 @@
  *
  * The generated files include inline critical css.
  */
-
 /*=================================
 =            IMPORTANT            =
 ===================================
@@ -40,11 +39,9 @@ if you get any error:
         - src with absolute paths without protocol, ie: src=//
 
 =======  End of IMPORTANT  ======*/
-
 /* global module, require */
 /*jshint loopfunc:true */
 'use strict';
-
 module.exports = function(gulp, plugins, config) {
     var colors = require('ansi-colors');
     var critical = require('critical').stream;
@@ -54,7 +51,6 @@ module.exports = function(gulp, plugins, config) {
     var mkdirp = require('mkdirp');
     var request = require('sync-request');
     var runSequence = require('run-sequence');
-
     var criticalSources = [
         {
             dir: config.baseDir,
@@ -62,25 +58,23 @@ module.exports = function(gulp, plugins, config) {
             filter: ['.html', '.php'],
             ignoreCssRules: ['.any-class', '#any-id'],
             forceCssRules: [],
-            exclude: ['anyfile.html']
-        },
-        {
-            dir: config.baseDir + '/test-dir',
-            url: config.baseUrl + '/test-dir',
-            filter: ['.html', '.php'],
-            ignoreCssRules: [],
-            forceCssRules: [],
-            exclude: []
+            exclude: ['adaptive-images.php']
         }
+        /*,
+                {
+                    dir: config.baseDir + '/test-dir',
+                    url: config.baseUrl + '/test-dir',
+                    filter: ['.html', '.php'],
+                    ignoreCssRules: [],
+                    forceCssRules: [],
+                    exclude: []
+                }*/
     ];
-
     var currentSourceIndex = 0,
         options;
-
     // critical CSS
     gulp.task('downloadHtml', function() {
         log.info(colors.green('______________DOWNLOAD HTML ' + options.srcDir));
-
         var files = fs.readdirSync(options.srcDir),
             url = options.url,
             exclude = options.srcExclude,
@@ -112,7 +106,6 @@ module.exports = function(gulp, plugins, config) {
         }
         if (urls.length < 1) {
             log.warn(colors.red('No URL found in ' + url));
-
             return;
         }
         mkdirp(options.srcDir + '/dist', function(err) {
@@ -128,7 +121,6 @@ module.exports = function(gulp, plugins, config) {
             .pipe(plugins.replace(/src="\/\//g, 'src="https://')) // replace src=// with src=http:// to avoid Chromium crash
             .pipe(gulp.dest(options.srcDir));
     });
-
     gulp.task('criticalHtml', function() {
         log.info(colors.green('______________criticalHtml'));
         return gulp
@@ -168,7 +160,6 @@ module.exports = function(gulp, plugins, config) {
             )
             .pipe(gulp.dest(options.srcDir + '/dist'));
     });
-
     gulp.task('criticalPhp', function() {
         log.info(colors.green('______________criticalPhp'));
         return gulp
@@ -202,17 +193,15 @@ module.exports = function(gulp, plugins, config) {
                 log.error(colors.red(err.message));
             })
             .pipe(
-                plugins.rename({
-                    suffix: '.min' // add *.min suffix
+                plugins.rename(function(path) {
+                    path.basename = path.basename.replace('critical-', '') + '.min';
                 })
             )
             .pipe(gulp.dest(config.css + '/critical'));
     });
-
     gulp.task('deleteTemp', function() {
         return del([options.srcDir + '/critical-*.*'], { force: true });
     });
-
     gulp.task('critical', function() {
         if (currentSourceIndex < criticalSources.length) {
             options = {
