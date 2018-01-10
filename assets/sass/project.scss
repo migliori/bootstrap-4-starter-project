@@ -11,17 +11,19 @@
 
 /* Core
 -------------------------------------------------- */
-
 @import '../../node_modules/bootstrap/scss/functions';
 
 // custom variables
 @import 'variables-custom.scss';
 
+// bootstrap variables
 @import '../../node_modules/bootstrap/scss/variables';
 
-/* Import components*/
-
+// components
 @import 'components.scss';
+
+// sidebar
+@import 'sidebar.scss';
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -32,6 +34,9 @@ html {
 }
 
 body {
+    &.navbar-fixed-top {
+        padding-top: $navbar-height;
+    }
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     > .container {

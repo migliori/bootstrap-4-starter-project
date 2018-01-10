@@ -29,7 +29,7 @@ module.exports = function(gulp, plugins, config) {
                 config.baseDir + '/node_modules/bootstrap/js/dist/tooltip.js'
                 // config.baseDir + '/node_modules/bootstrap/js/dist/popover.js'
             ])
-            .pipe(rename('bootstrap.js'))
+            .pipe(concat('bootstrap.js'))
             .pipe(gulp.dest(config.baseDir + '/' + config.scripts));
     });
     // Create minified js
@@ -54,7 +54,7 @@ module.exports = function(gulp, plugins, config) {
         return gulp
             .src([
                 // file order is important !
-                config.scripts + '/jquery-3.2.1.slim.min.js',
+                config.scripts + '/jquery-3.2.1.min.js',
                 config.scripts + '/popper.min.js',
                 config.scripts + '/bootstrap.min.js',
                 config.scripts + '/plugins/loaders/pace.min.js',

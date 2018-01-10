@@ -43,6 +43,7 @@ bootstrap-4-starter-project/
 ├── adaptive-images.php
 ├── gulpfile.js
 ├── index.php
+├── index-with-sidebar.php
 ├── package-lock.json
 ├── package.json
 ├── README.md
@@ -55,6 +56,10 @@ bootstrap-4-starter-project/
 │   ├── javascripts/
 │   ├── sass/
 │   └── stylesheets/
+├── class/
+│   ├── bootstrap
+│   ├── common
+│   └── lib
 ├── dist/
 ├── gulp/
 │   ├── config.json
@@ -74,6 +79,8 @@ bootstrap-4-starter-project/
 
 The Bootstrap 4 starter project allows to start your project with good practices, built-in features to compile your assets with maximum optimization for fast loading.
 
+It includes some **Bootstrap 4 PHP Classes** to build Bootstrap Navs and Sidebars. The generated elements are rendered with **[Twig Template Engine](https://twig.symfony.com/)**
+
 * ### Configuration
  The configuration file - `conf/conf.php` - defines global PHP constants for:
  * global URLs
@@ -85,22 +92,27 @@ The Bootstrap 4 starter project allows to start your project with good practices
  * default timezone
  * db connection
  * autoloader implementation for the php engine.
- 
+
 * ### Gulp main tasks
   Instructions available here: [Gulp essential tasks](https://github.com/migliori/gulp-essentials)
-  
+
   * **sass**
   * **scripts**
   * **bootstrapjs** (part of scripts)
   * **images**
   * **critical** (critical css for html & php files)
 
-* ### Bootstrap customization
+* ### Bootstrap 4 PHP Classes
+
+  * **Nav**
+  * **Sidebar**
+
+* ### Bootstrap 4 customization
   * **Bootstrap CSS** can be customized in `assets/sass/bootstrap.scss` (comment/uncomment to add/remove Bootstrap components)
   * **Bootstrap Javascript** can be customized in `gulp/scripts.js` => `bootstrapjs` (comment/uncomment to add/remove Bootstrap components)
 
 * ### Optimization
-   
+
   * **Localhost** is automagically detected in `conf/conf.php`.
     * On Localhost css and js files are served unminified and uncompiled.
   * **Production** server:
@@ -134,7 +146,7 @@ The Bootstrap 4 starter project allows to start your project with good practices
       - half screen width on md and lg screens
       - full screen width on lower resolutions.
   */
-  
+
   $breakpoints   = array(
       'lg' => 1200,
       'md' => 992,

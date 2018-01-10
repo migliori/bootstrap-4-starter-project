@@ -8,6 +8,8 @@
 @import '../../node_modules/bootstrap/scss/mixins';
 @import '../../node_modules/bootstrap/scss/utilities';
 
+$navbar-height: $navbar-brand-height * 1.5 + $navbar-padding-y * 2;
+
 /* Color variants - https://codepen.io/migli/pen/QaGNVp */
 
 $white: #fff;

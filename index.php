@@ -11,7 +11,7 @@ include_once 'conf/conf.php';
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="icon" href="/favicon.ico">
-        <title>Fixed top navbar example for Bootstrap</title>
+        <title>Fixed top navbar example for Bootstrap 4</title>
         <!-- adaptative-images -->
         <script>
         document.cookie = 'resolution=' + Math.max(screen.width, screen.height) + ("devicePixelRatio" in window ? "," + devicePixelRatio : ",1") + '; path=/';
@@ -20,10 +20,10 @@ include_once 'conf/conf.php';
         <?php include_once 'inc/css-includes.php'; ?>
     </head>
 
-    <body>
+    <body class="navbar-fixed-top">
         <?php include_once 'inc/main-nav.php'; ?>
         <main role="main" class="container">
-            <h1 class="text-center my-5">Sticky footer with fixed navbar</h1>
+            <h1 class="text-center my-5"><i class="fas fa-anchor"></i>Sticky footer with fixed navbar</h1>
             <p class="text-justify lead mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             <hr>
             <div class="row">

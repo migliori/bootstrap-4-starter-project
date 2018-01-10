@@ -9,12 +9,13 @@ WebFont.load({
 <?php
 if (ENVIRONMENT === 'development') {
     ?>
-    <script type="text/javascript" src="<?php echo ASSETS_URL; ?>javascripts/jquery-3.2.1.slim.min.js"></script>
+    <script type="text/javascript" src="<?php echo ASSETS_URL; ?>javascripts/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="<?php echo ASSETS_URL; ?>javascripts/popper.min.js"></script>
     <script type="text/javascript" src="<?php echo ASSETS_URL; ?>javascripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="<?php echo ASSETS_URL; ?>javascripts/plugins/misc/holder.min.js"></script>
     <script type="text/javascript" src="<?php echo ASSETS_URL; ?>javascripts/plugins/loaders/pace.min.js"></script>
     <script type="text/javascript" src="<?php echo ASSETS_URL; ?>javascripts/project.js"></script>
+    <script type="text/javascript" src="<?php echo ASSETS_URL; ?>javascripts/fontawesome-free-5.0.3/svg-with-js/js/fontawesome-all.min.js"></script>
     <?php
 } else {
         ?>

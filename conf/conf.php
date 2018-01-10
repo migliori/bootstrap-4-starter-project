@@ -94,48 +94,47 @@ define('DEBUG', $debug);
 /*=====  End of Environment - Debug  ======*/
 
 /* =============================================
-    ICONS
+    Font Awesome Icons
 ============================================= */
 
-define('ICON_ADDRESS', 'icon-location4');
-define('ICON_ARROW_DOWN', 'icon-arrow-down8');
-define('ICON_ARROW_LEFT', 'icon-arrow-left12');
-define('ICON_ARROW_RIGHT', 'icon-arrow-right7');
-define('ICON_ARROW_RIGHT_CIRCLE', 'icon-circle-right2');
-define('ICON_BACK', 'icon-arrow-left7');
-define('ICON_CALENDAR', 'icon-calendar22');
-define('ICON_CANCEL', 'icon-cross3');
-define('ICON_CHECKMARK', 'icon-checkmark');
-define('ICON_CITY', 'icon-city');
-define('ICON_COMPANY', 'icon-vcard');
-define('ICON_CONTACT', 'icon-phone');
-define('ICON_COUNTRY', 'icon-flag3');
-define('ICON_DASHBOARD', 'icon-switch');
-define('ICON_DELETE', 'icon-cross2');
-define('ICON_EDIT', 'icon-pencil7');
-define('ICON_ENVELOP', 'icon-envelop3');
-define('ICON_FILTER', ' icon-filter3');
-define('ICON_HOME', 'icon-home4');
-define('ICON_HOUR_GLASS', 'icon-hour-glass2');
-define('ICON_INFO', 'icon-info22');
-define('ICON_LINK', 'icon-link');
-define('ICON_LIST', 'icon-list');
-define('ICON_LOCK', 'icon-lock2');
-define('ICON_LOGOUT', 'icon-switch2');
-define('ICON_LOGIN', 'icon-user-lock');
-define('ICON_NEW_TAB', ' icon-new-tab');
-define('ICON_PLUS', 'icon-plus-circle2');
-define('ICON_QUESTION', 'icon-question7');
-define('ICON_RESET', 'icon-reset');
-define('ICON_SEARCH', 'icon-search4');
-define('ICON_SPINNER', 'icon-spinner9');
-define('ICON_STOP', 'icon-stop');
-define('ICON_TRANSMISSION', 'icon-transmission');
-define('ICON_UNLOCK', 'icon-unlocked2');
-define('ICON_USER', 'icon-user-tie');
-define('ICON_USER_CHECK', 'icon-user-check');
-define('ICON_USER_PLUS', 'icon-user-plus');
-define('ICON_ZIP_CODE', 'icon-stamp');
+define('ICON_ADDRESS', 'fas fa-map-marker-alt');
+define('ICON_ARROW_DOWN', 'fas fa-long-arrow-alt-down');
+define('ICON_ARROW_LEFT', 'fas fa-angle-left');
+define('ICON_ARROW_RIGHT', 'fas fa-angle-right');
+define('ICON_ARROW_RIGHT_CIRCLE', 'far fa-arrow-alt-circle-right');
+define('ICON_BACK', 'fas fa-long-arrow-alt-left');
+define('ICON_CALENDAR', 'far fa-calendar');
+define('ICON_CANCEL', 'fas fa-times');
+define('ICON_CHECKMARK', 'fas fa-check');
+define('ICON_CITY', 'far fa-building');
+define('ICON_COMPANY', 'fas fa-id-card');
+define('ICON_CONTACT', 'fas fa-phone');
+define('ICON_COUNTRY', 'fas fa-flag');
+define('ICON_DASHBOARD', 'fas fa-power-off');
+define('ICON_DELETE', 'fas fa-times-circle');
+define('ICON_EDIT', 'fas fa-pencil-alt');
+define('ICON_ENVELOP', 'fas fa-envelope');
+define('ICON_FILTER', 'fas fa-filter');
+define('ICON_HOME', 'fas fa-home');
+define('ICON_HOUR_GLASS', 'fas fa-hourglass-half');
+define('ICON_INFO', 'fas fa-info-circle');
+define('ICON_LINK', 'fas fa-link');
+define('ICON_LIST', 'fas fa-list');
+define('ICON_LOCK', 'fas fa-lock');
+define('ICON_LOGOUT', 'fas fa-power-off');
+define('ICON_LOGIN', 'fas fa-user-circle');
+define('ICON_NEW_TAB', ' far fa-clone');
+define('ICON_PLUS', 'fas fa-plus-circle');
+define('ICON_QUESTION', 'fas fa-question');
+define('ICON_RESET', 'fas fa-undo');
+define('ICON_SEARCH', 'fas fa-search');
+define('ICON_SPINNER', 'fas fa-spinner');
+define('ICON_STOP', 'far fa-stop-circle');
+define('ICON_TRANSMISSION', 'fas fa-exchange-alt');
+define('ICON_UNLOCK', 'fas fa-unlock-alt');
+define('ICON_USER', 'fas fa-user');
+define('ICON_USER_PLUS', 'fas fa-user-plus');
+define('ICON_ZIP_CODE', 'fas fa-location-arrow');
 
 /* =============================================
     LAYOUT SKIN
