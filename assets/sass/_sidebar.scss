@@ -1,15 +1,16 @@
 // https://codepen.io/migli/pen/dJZQxZ
 
 // custom variables
-$sidebar-breakpoint: 768px;
+$sidebar-breakpoint: md;
 $sidebar-base-width: 240px;
 $navbar-height: 3.5rem;
 $sidebar-spacer-x: 20px;
-$sidebar-spacer-y: $spacer * 0.5;
-$sidebar-mini-width: 44px;
-$font-size-xs: ($font-size-base * 0.75);
+$sidebar-spacer-y: $spacer;
+$sidebar-mini-width: 54px;
+$font-size-xs: ($font-size-base * 0.8461538461538461);
 $font-weight-semibold: 500;
 $default-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+$default-text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
 
 // svg-url-encoder
 @import 'svg-url-encoder.scss';
@@ -36,7 +37,7 @@ $default-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24
 }
 
 .sidebar-container {
-    position: relative;
+    position: absolute;
     width: 100%;
     z-index: 99;
 }
@@ -44,26 +45,20 @@ $default-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24
 .sidebar {
     position: relative;
     width: 100%;
-    border-bottom: 1px solid $gray-200;
-    &.sidebar-fixed {
-        position: sticky;
-        top: $navbar-height + $spacer;
-    }
+    box-shadow: $default-box-shadow;
     .sidebar-user .category-content {
-        padding: $spacer;
+        padding: $sidebar-spacer-y * 2 $sidebar-spacer-x;
         text-align: center;
         color: #fff;
-        background: url(../images/user_bg4.jpg) center center no-repeat;
+        background: url(../images/backgrounds/user_bg4.jpg) center center no-repeat;
         background-repeat: no-repeat;
         background-position: center center;
         background-size: cover;
-        &:first-child {
-            border-bottom-right-radius: $border-radius;
-            border-bottom-left-radius: $border-radius;
-        }
-        &:last-child {
-            border-top-right-radius: $border-radius;
-            border-top-left-radius: $border-radius;
+        h4,
+        h5,
+        h6,
+        span {
+            text-shadow: $default-text-shadow;
         }
     }
     .sidebar-content {
@@ -76,9 +71,12 @@ $default-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24
         margin: 0;
         padding: 12px 20px;
         padding-right: 46px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
     }
     &.sidebar-default {
+        background-color: #fff;
+        border-bottom: 1px solid $gray-200;
         .category-title {
             border-bottom-color: $gray-300;
             > span {
@@ -108,7 +106,8 @@ $default-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24
                 position: relative;
                 list-style: none;
                 > a {
-                    font-size: $font-size-sm;
+                    font-size: $font-size-base;
+                    padding: $sidebar-spacer-y $sidebar-spacer-x;
                     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
                     transition: background 0.15s linear, color 0.15s linear;
                     > [class*='svg-inline'] {
@@ -132,84 +131,100 @@ $default-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24
         }
     }
 }
-a[data-toggle='collapse'],
-a.dropdown-toggle {
+// Global caret settings
+%dropdown-toggle-after {
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    right: $spacer;
+    width: 7px;
+    height: 14px;
+    margin: -7px 0 0 0;
+    line-height: $font-size-base * 1.5;
+    display: block;
+    background-repeat: no-repeat;
+    border: none;
+    transform: rotate(0deg);
+    transition: transform 0.2s ease-in-out;
+}
+.dropdown-toggle {
+    position: relative;
     padding-right: $spacer * 2;
     &:not(.sidebar-toggler):after {
-        content: ' ';
-        position: absolute;
-        top: $sidebar-spacer-y;
-        right: $spacer;
-        width: 16px;
-        height: 16px;
-        line-height: $font-size-base * 1.5;
-        display: block;
+        @extend %dropdown-toggle-after;
         @include background-svg('<svg aria-hidden="true" data-fa-processed="" data-prefix="fas" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class="svg-inline--fa fa-angle-right fa-w-8 fa-2x"><path fill="#{$body-color}" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z" class=""></path></svg>');
-        background-repeat: no-repeat;
-        border: none;
-        transform: rotate(0deg);
-        transform-origin: 0 50%;
-        transition: transform 0.2s ease-in-out;
     }
     &[aria-expanded='true']:after {
         transform: rotate(90deg);
     }
 }
-@media (min-width: $sidebar-breakpoint) {
-    .sidebar-mini-toggler:after {
-        content: ' ';
-        position: relative;
-        top: -4px;
-        margin: 0 auto;
-        width: 16px;
-        height: 16px;
-        line-height: 16px;
-        display: block;
-        @include background-svg('<svg aria-hidden="true" data-fa-processed="" data-prefix="fas" data-icon="angle-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="svg-inline--fa fa-angle-down fa-w-10 fa-2x"><path fill="#fff" d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" class=""></path></svg>');
-        background-repeat: no-repeat;
-        transform: rotate(0deg);
-        transform-origin: 0 50%;
-        transition: transform 0.2s ease-in-out;
+.sidebar-mini-toggler:after {
+    @extend %dropdown-toggle-after;
+    margin: -7px 12px 0 0;
+    @include background-svg('<svg aria-hidden="true" data-fa-processed="" data-prefix="fas" data-icon="angle-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="svg-inline--fa fa-angle-down fa-w-10 fa-2x"><path fill="#fff" d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" class=""></path></svg>');
+}
+.btn-icon.dropdown-toggle {
+    &:after {
+        right: $spacer * 0.75;
+    }
+}
+@include media-breakpoint-up($sidebar-breakpoint) {
+    .page-container {
+        display: flex;
+        justify-content: space-around;
+        .content-wrapper {
+            width: calc(100% - #{$sidebar-base-width + $sidebar-spacer-x * 2});
+        }
     }
     .sidebar-container {
-        padding-top: $spacer * 2 !important;
-        display: table-cell;
+        position: relative;
+        padding: $spacer * 1.5 $sidebar-spacer-x;
+        flex: 0 0 $sidebar-base-width + $sidebar-spacer-x * 2;
         vertical-align: top;
-        width: $sidebar-base-width + $sidebar-spacer-x * 2;
-        padding: 0 $sidebar-spacer-x;
     }
     .sidebar {
         height: auto;
         width: $sidebar-base-width;
         box-shadow: $default-box-shadow;
         transition: width 0.35s ease-in-out;
+        h4,
+        h5,
         h6,
-        small {
+        small,
+        .category-title span,
+        .sidebar-user span {
             display: block;
         }
-        span {
+        span.sidenav-text {
             display: inline-block;
         }
         &.sidebar-mini {
             height: auto;
             width: $sidebar-mini-width;
             display: block;
+            .sidebar-user .category-content {
+                padding: 2rem 1rem;
+            }
+            h4,
+            h5,
             h6,
             small,
-            span {
+            .category-title,
+            .sidebar-user span,
+            span.sidenav-text,
+            li ul {
                 display: none !important;
             }
-            a.dropdown-toggle:after {
-                display: none;
+            li a {
+                min-height: 3.5rem;
+                &.dropdown-toggle:after {
+                    display: none;
+                }
             }
             .sidebar-mini-toggler:after {
                 transform: rotate(90deg);
             }
         }
-        &.sidebar-default .sidebar-category {
-            background-color: #fff;
-        }
-
         &.sidebar-separate {
             .sidebar-content {
                 box-shadow: none;
@@ -220,8 +235,18 @@ a.dropdown-toggle {
                 box-shadow: $default-box-shadow;
             }
         }
-    }
-    .content-wrapper {
-        display: table-cell;
+        &.sidebar-fixed {
+            position: sticky;
+            top: $navbar-height + $spacer;
+        }
+        .sidebar-user .category-content {
+            &:first-child {
+                border-top-right-radius: $border-radius;
+                border-top-left-radius: $border-radius;
+            }
+        }
+        .sidebar-content {
+            margin-bottom: 0;
+        }
     }
 }

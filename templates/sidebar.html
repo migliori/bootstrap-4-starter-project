@@ -18,7 +18,7 @@ if username|userinfo
                 <div class="sidebar-user">
                     <div class="category-content">
 {% if categorie.username|length > 0 %}
-                        <h6>{{ categorie.username }}</h6>
+                        <h5>{{ categorie.username }}</h5>
 {% endif %}
 {% if categorie.userinfo|length > 0 %}
                         <small>{{ categorie.userinfo }}</small>
@@ -54,7 +54,7 @@ loop nav items
 {% if item.icon|length > 0 %}
                                 <i class="{{ item.icon|raw }}"></i>
 {% endif %}
-                            <span>{{ item.text|raw }}</span>
+                                {{ item.text|raw }}
 {% if item.url|length > 0 %}
                             </a>
 {% endif %}
@@ -74,7 +74,7 @@ loop dropdown items
 {% if dropdownitem.icon|length > 0 %}
                                         <i class="{{ dropdownitem.icon|raw }}"></i>
 {% endif %}
-                                    <span>{{ dropdownitem.text|raw }}</span>
+                                        {{ dropdownitem.text|raw }}
 {% if dropdownitem.url|length > 0 %}
                                     </a>
 {% endif %}

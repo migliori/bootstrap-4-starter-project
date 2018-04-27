@@ -44,6 +44,12 @@ body {
     }
 }
 
+.content-wrapper {
+    display: table-cell;
+    padding-left: $grid-gutter-width;
+    padding-right: $grid-gutter-width;
+}
+
 .footer {
     position: absolute;
     bottom: 0;
