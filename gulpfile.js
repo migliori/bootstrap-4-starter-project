@@ -27,7 +27,7 @@ gulp.task('watch', function() {
     // Watch .scss files
     gulp.watch(config.sass + '**/**/*.scss', ['sass']);
     // Watch .js files
-    gulp.watch(config.scripts + '**/**/*.js', ['scripts']);
+    gulp.watch([config.scripts + '**/**/*.js', '!' + config.scripts + '**/**/*.min.js'], ['scripts']);
     // Watch image files
     gulp.watch(config.images + 'images/**/*', ['images']);
 });
