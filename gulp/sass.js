@@ -44,7 +44,7 @@ module.exports = function(gulp, plugins, config) {
         // postcss has to be finished before cssnano
         return gulp
             .src([config.css + '/*.css', '!' + config.css + '/*.min.css']) // exclude .min.css
-            .pipe(cssnano({ zindex: false }))
+            .pipe(cssnano({ zindex: false, minifyFontValues: false, discardUnused: false }))
             .pipe(
                 rename({
                     suffix: '.min' // add *.min suffix
