@@ -13,16 +13,19 @@
 -------------------------------------------------- */
 @import '../../node_modules/bootstrap/scss/functions';
 
-// custom variables
+/* custom variables*/
 @import 'variables-custom.scss';
 
-// bootstrap variables
+/* bootstrap variables*/
 @import '../../node_modules/bootstrap/scss/variables';
 
-// components
+/* color variants */
+@import 'color_variants';
+
+/* components*/
 @import 'components.scss';
 
-// sidebar
+/* sidebar*/
 @import 'sidebar.scss';
 
 /* Sticky footer styles

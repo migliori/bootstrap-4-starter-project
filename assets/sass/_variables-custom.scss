@@ -4,30 +4,21 @@
  *
  */
 
-@import '../../node_modules/bootstrap/scss/variables';
-@import '../../node_modules/bootstrap/scss/mixins';
-@import '../../node_modules/bootstrap/scss/utilities';
-
-$navbar-height: $navbar-brand-height * 1.5 + $navbar-padding-y * 2;
+$font-family-sans-serif: Overpass, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+$font-family-base: $font-family-sans-serif;
 
 /* Color variants - https://codepen.io/migli/pen/QaGNVp */
 
 $white: #fff;
 $black: #000;
 
-$blue: #007bff;
-$indigo: #6610f2;
-$purple: #6f42c1;
-$pink: #e83e8c;
-$red: #dc3545;
-$orange: #fd7e14;
+$blue: #0e73cc;
+$red: #fc4848;
+$orange: #d2bc93;
 $yellow: #ffc107;
-$green: #28a745;
-$teal: #20c997;
-$cyan: #17a2b8;
-$gray: #868e96;
-$gray-dark: #343a40;
-
+$green: #0f9e7b;
+$gray: #8c8476;
+$gray-dark: #2c2c2c;
 $color-variants: (
     100: -10%,
     200: -25%,
@@ -41,25 +32,7 @@ $color-variants: (
 );
 
 $colors: ();
-$colors: map-merge(
-
-    (
-        'blue': $blue,
-        'indigo': $indigo,
-        'purple': $purple,
-        'pink': $pink,
-        'red': $red,
-        'orange': $orange,
-        'yellow': $yellow,
-        'green': $green,
-        'teal': $teal,
-        'cyan': $cyan,
-        'white': $white,
-        'gray': $gray,
-        'gray-dark': $gray-dark
-    ),
-    $colors
-);
+$colors: map-merge( ('blue': $blue, 'red': $red, 'orange': $orange, 'yellow': $yellow, 'green': $green, 'white': $white, 'gray': $gray, 'gray-dark': $gray-dark), $colors);
 
 /*  Add color variants to $colors*/
 @each $color-name, $color in $colors {
@@ -81,30 +54,41 @@ $gray-700: map-get($colors, gray-700);
 $gray-800: map-get($colors, gray-800);
 $gray-900: map-get($colors, gray-900);
 
-$enable-hover-media-query: true;
+/* remap colors */
 
-/* from Bootstrap 4 utilities - replaced $theme-colors with $colors */
+$primary: $blue;
+$secondary: $gray-600;
+$success: $green;
+$warning: $yellow;
+$danger: $red;
+$light: $gray-100;
+$dark: $gray-800;
 
-/* text colors*/
-@each $color, $value in $colors {
-    @include text-emphasis-variant('.text-#{$color}', $value);
-}
+$theme-colors: ();
 
-/* background colors*/
-@each $color, $value in $colors {
-    @include bg-variant('.bg-#{$color}', $value);
-}
+/* Breakpoints */
 
-/* background text contrast*/
-@each $color, $value in $colors {
-    .bg-#{$color} {
-        color: color-yiq($value);
-    }
-}
+$navbar-main-breakpoint: 'lg';
 
-/* border colors*/
-@each $color, $value in $colors {
-    .border-#{$color} {
-        border-color: $value !important;
-    }
-}
+/* Borders */
+
+$border-radius: 0;
+$border-radius-lg: 0;
+$border-radius-sm: 0;
+
+/* Fonts */
+
+$font-size-base: 0.9375rem;
+$font-size-lg: ($font-size-base * 1.25);
+$font-size-sm: ($font-size-base * 0.875);
+
+$h1-font-size: $font-size-base * 2.6666666666666665;
+$h2-font-size: $font-size-base * 2;
+$h3-font-size: $font-size-base * 1.75;
+$h4-font-size: $font-size-base * 1.5;
+$h5-font-size: $font-size-base * 1.25;
+$h6-font-size: $font-size-base;
+
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-bold: 500;

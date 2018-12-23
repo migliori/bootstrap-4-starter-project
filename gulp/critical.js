@@ -2,7 +2,7 @@
  *
  * Critical CSS Module
  *
- * Version: 1.0
+ * Version: 1.1
  *
  * Creates "critical css" from html/php source files ("criticalSources")
  *
@@ -24,54 +24,53 @@
  *
  * The generated files include inline critical css.
  */
-/*=================================
-=            IMPORTANT            =
-===================================
 
-if you get any error:
-
-    undefinedundefinedError: Penthouse timed out after 30s
-    Chromium unexpecedly not opened - crashed?
-
-    Test with a simple html file
-    The content of the html/php files can break the process in some particular cases:
-        - malformed code
-        - src with absolute paths without protocol, ie: src=//
-
-=======  End of IMPORTANT  ======*/
 /* global module, require */
 /*jshint loopfunc:true */
 'use strict';
+
+var colors = require('ansi-colors');
+var critical = require('critical').stream;
+var del = require('del');
+var fs = require('fs');
+var log = require('fancy-log');
+var mkdirp = require('mkdirp');
+var request = require('sync-request');
+
 module.exports = function(gulp, plugins, config) {
-    var colors = require('ansi-colors');
-    var critical = require('critical').stream;
-    var del = require('del');
-    var fs = require('fs');
-    var log = require('fancy-log');
-    var mkdirp = require('mkdirp');
-    var request = require('sync-request');
-    var runSequence = require('run-sequence');
     var criticalSources = [
         {
-            dir: config.baseDir + 'phpformbuilder',
+            dir: config.baseDir,
             url: config.baseUrl,
             filter: ['.php'],
             ignoreCssRules: [/^--/],
-            exclude: ['404.php', 'adaptive-images.php', 'ajax-google-reviews.php']
-        },
-        {
-            dir: config.baseDir + '/phpformbuilder/documentation',
-            url: config.baseUrl + '/documentation',
-            filter: ['.html', '.php'],
-            ignoreCssRules: [/^--/],
-            exclude: []
+            exclude: ['404.php', 'adaptive-images.php']
         }
+
+        /* Add other directories here if you want
+        ,{
+            dir: config.baseDir + 'test/',
+            url: config.baseUrl + 'test/',
+            filter: ['.html'],
+            ignoreCssRules: [/^--/],
+            exclude: ['404.php', 'adaptive-images.php']
+        }*/
     ];
     var currentSourceIndex = 0,
-        options;
+        options = {
+            srcDir: criticalSources[currentSourceIndex].dir,
+            url: criticalSources[currentSourceIndex].url,
+            srcFilter: criticalSources[currentSourceIndex].filter,
+            ignoreCssRules: criticalSources[currentSourceIndex].ignoreCssRules,
+            srcExclude: criticalSources[currentSourceIndex].exclude
+        },
+        stream;
     // critical CSS
-    gulp.task('downloadHtml', function() {
-        log.info(colors.green('______________DOWNLOAD HTML ' + options.srcDir));
+    function downloadHtml() {
+        if (currentSourceIndex == 0) {
+            log.info(colors.bgGreen('-------------- START CRITICAL -----------------'));
+        }
+        log.info(colors.green('______________DOWNLOAD HTML ' + currentSourceIndex + ' __ ' + options.srcDir));
         var files = fs.readdirSync(options.srcDir),
             url = options.url,
             exclude = options.srcExclude,
@@ -91,12 +90,12 @@ module.exports = function(gulp, plugins, config) {
                 // exclude "exclude", "critical-" and folders
                 if (exclude.indexOf(filename) === -1 && /^critical-/.test(filename) === false && /\.(.*)/.test(filename) === true) {
                     // test url before push
-                    var res = request('GET', url + '/' + filename);
+                    var res = request('GET', url + filename);
                     if (res.statusCode == 200) {
-                        urls.push(url + '/' + filename);
-                        log.info('-- found: ', url + '/' + filename);
+                        urls.push(url + filename);
+                        log.info('-- found: ', url + filename);
                     } else {
-                        log.error(colors.red(url + '/' + filename + " doesn't exist"));
+                        log.error(colors.red(url + filename + " doesn't exist"));
                     }
                 }
             }
@@ -105,10 +104,10 @@ module.exports = function(gulp, plugins, config) {
             log.warn(colors.red('No URL found in ' + url));
             return;
         }
-        mkdirp(options.srcDir + '/dist', function(err) {
+        mkdirp(options.srcDir + 'dist', function(err) {
             if (err) log.error(colors.red(err));
         });
-        return plugins
+        stream = plugins
             .download(urls)
             .pipe(
                 plugins.rename(function(path) {
@@ -118,14 +117,16 @@ module.exports = function(gulp, plugins, config) {
             )
             .pipe(plugins.replace(/src="\/\//g, 'src="https://')) // replace src=// with src=http:// to avoid Chromium crash
             .pipe(gulp.dest(options.srcDir));
-    });
-    gulp.task('criticalHtml', function() {
-        log.info(colors.green('______________criticalHtml'));
-        return gulp
-            .src(options.srcDir + '/critical-html-*.html')
+
+        return stream;
+    }
+    function criticalHtml() {
+        log.info(colors.green('______________criticalHtml ' + currentSourceIndex + ' __ ' + options.srcDir));
+        stream = gulp
+            .src(options.srcDir + 'critical-html-*.html')
             .pipe(
                 critical({
-                    base: config.baseDir + 'phpformbuilder',
+                    base: config.baseDir,
                     extract: false,
                     inline: true,
                     minify: true,
@@ -151,18 +152,22 @@ module.exports = function(gulp, plugins, config) {
             })
             .pipe(
                 plugins.rename(function(path) {
-                    path.basename = path.basename.replace(/critical-html-/, '');
+                    path.basename = path.basename.replace('critical-html-', '');
                 })
             )
-            .pipe(gulp.dest(options.srcDir + '/dist'));
-    });
-    gulp.task('criticalPhp', function() {
-        log.info(colors.green('______________criticalPhp'));
-        return gulp
-            .src(options.srcDir + '/critical-php-*.html')
+            .pipe(gulp.dest(options.srcDir + 'dist'));
+
+        log.info(colors.bgGreen(options.srcDir + 'dist'));
+
+        return stream;
+    }
+    function criticalPhp() {
+        log.info(colors.green('______________criticalPhp ' + currentSourceIndex + ' __ ' + options.srcDir));
+        stream = gulp
+            .src(options.srcDir + 'critical-php-*.html')
             .pipe(
                 critical({
-                    base: config.baseDir + 'phpformbuilder',
+                    base: config.baseDir,
                     extract: false,
                     inline: false,
                     minify: true,
@@ -194,26 +199,43 @@ module.exports = function(gulp, plugins, config) {
                     path.basename = path.basename.replace('critical-php-', '') + '.min';
                 })
             )
-            .pipe(gulp.dest(config.css + '/critical'));
-    });
-    gulp.task('deleteTemp', function() {
-        return del([options.srcDir + '/critical-*.*'], { force: true });
-    });
-    gulp.task('critical', function() {
-        if (currentSourceIndex < criticalSources.length) {
-            options = {
-                srcDir: criticalSources[currentSourceIndex].dir,
-                css: criticalSources[currentSourceIndex].cssFiles,
-                url: criticalSources[currentSourceIndex].url,
-                srcFilter: criticalSources[currentSourceIndex].filter,
-                ignoreCssRules: criticalSources[currentSourceIndex].ignoreCssRules,
-                srcExclude: criticalSources[currentSourceIndex].exclude
-            };
-            log.info(colors.bgGreen('-------------- START CRITICAL ' + currentSourceIndex + '-----------------'));
-            runSequence('downloadHtml', 'criticalHtml', 'criticalPhp', 'deleteTemp', 'critical');
-            currentSourceIndex++;
-        } else {
-            log.info(colors.bgGreen('-------------- END PROCESS -----------------'));
+            .pipe(gulp.dest(config.css + 'critical'));
+
+        return stream;
+    }
+    function deleteTemp() {
+        log.info(colors.bgGreen('-------------- DELETE TEMP FILES -----------------'));
+        stream = del([options.srcDir + 'critical-*.*'], { force: true });
+
+        return stream;
+    }
+
+    function increment() {
+        log.info(colors.bgGreen('-------------- INCREMENT -----------------'));
+        currentSourceIndex++;
+        options = {
+            srcDir: criticalSources[currentSourceIndex].dir,
+            url: criticalSources[currentSourceIndex].url,
+            srcFilter: criticalSources[currentSourceIndex].filter,
+            ignoreCssRules: criticalSources[currentSourceIndex].ignoreCssRules,
+            srcExclude: criticalSources[currentSourceIndex].exclude
+        };
+
+        return stream;
+    }
+
+    function runCritical() {
+        if (criticalSources.length == 1) {
+            stream = gulp.series(downloadHtml, criticalHtml, criticalPhp, deleteTemp);
+        } else if (criticalSources.length == 2) {
+            stream = gulp.series(downloadHtml, criticalHtml, criticalPhp, deleteTemp, increment, downloadHtml, criticalHtml, criticalPhp, deleteTemp);
         }
-    });
+
+        /* add ', increment, downloadHtml, criticalHtml, criticalPhp, deleteTemp' to gulp.series for each additional critical source */
+
+        return stream;
+    }
+
+    // main task
+    return runCritical();
 };

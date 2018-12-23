@@ -1,41 +1,35 @@
 /* ------------------------------------------------------------------------------
-*
-*  # Gulp file
-*
-*  Gulp common tasks
-*
-*  Version: 1.0
-*  Latest update: Dec 09, 2017
-*
-* ---------------------------------------------------------------------------- */
-
+ *
+ *  # Gulp file
+ *
+ *  Gulp common tasks
+ *
+ *  Version: 1.1
+ *  Latest update: Dec 23, 2018
+ *
+ * ---------------------------------------------------------------------------- */
 /* global require */
 'use strict';
-
 var gulp = require('gulp');
 var config = require('./gulp/config.json');
 var plugins = require('gulp-load-plugins')();
-var runSequence = require('run-sequence');
 
-require(config.tasksPath + '/critical')(gulp, plugins, config);
-require(config.tasksPath + '/images')(gulp, plugins, config);
-require(config.tasksPath + '/sass')(gulp, plugins, config);
-require(config.tasksPath + '/scripts')(gulp, plugins, config);
+/*==================================
+=            site tasks            =
+==================================*/
+
+function getTask(task) {
+    return require(config.tasksPath + '/' + task)(gulp, plugins, config);
+}
+
+gulp.task('sass', getTask('sass'));
+gulp.task('scripts', getTask('scripts'));
+gulp.task('critical', getTask('critical'));
 
 // Watch for changes in files
-gulp.task('watch', function() {
-    // Watch .scss files
-    gulp.watch(config.sass + '**/**/*.scss', ['sass']);
-    // Watch .js files
-    gulp.watch([config.scripts + '**/**/*.js', '!' + config.scripts + '**/**/*.min.js'], ['scripts']);
-    // Watch image files
-    gulp.watch(config.images + 'images/**/*', ['images']);
-});
+function watchFiles() {
+    gulp.watch(config.sass + '**/**/*.scss', getTask('sass'));
+    gulp.watch([config.scripts + '**/**/*.js', '!' + config.scripts + '**/**/*.min.js'], getTask('scripts'));
+}
 
-// Default Task
-gulp.task('default', ['watch']);
-
-// Dist Task
-gulp.task('dist', function() {
-    runSequence('sass', 'scripts', 'images', 'critical');
-});
+gulp.task('watch', watchFiles);

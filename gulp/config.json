@@ -1,13 +1,10 @@
 {
     "tasksPath": "./gulp",
-
-    "baseDir": ".",
-    "baseUrl": "http://my-project",
+    "baseDir": "./",
+    "baseUrl": "http://localhost/",
     "baseCombinedName": "all",
-
-    "sass": "assets/sass",
-    "css": "assets/stylesheets",
-    "scripts": "assets/javascripts",
-    "imagesSrcFolder": "assets/images/src",
-    "imagesDistFolder": "assets/images"
+    "baseCombinedDeferName": "all-defer",
+    "sass": "assets/sass/",
+    "css": "assets/stylesheets/",
+    "scripts": "assets/javascripts/"
 }

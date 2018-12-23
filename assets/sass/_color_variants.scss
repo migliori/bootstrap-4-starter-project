@@ -1,0 +1,32 @@
+@import 'variables-custom';
+@import '../../node_modules/bootstrap/scss/mixins';
+/* @import '../../node_modules/bootstrap/scss/utilities';*/
+
+/* Color variants - https://codepen.io/migli/pen/QaGNVp */
+
+$enable-hover-media-query: true;
+
+/* from Bootstrap 4 utilities - replaced $theme-colors with $colors */
+
+/* text colors*/
+@each $color, $value in $colors {
+    @include text-emphasis-variant('.text-#{$color}', $value);
+}
+
+/* background colors + text contrast*/
+@each $color, $value in $colors {
+    .bg-#{$color} {
+        background-color: $value;
+        color: color-yiq($value);
+    }
+    .underline-#{$color}:before {
+        background-color: $value;
+    }
+}
+
+/* border colors*/
+@each $color, $value in $colors {
+    .border-#{$color} {
+        border-color: $value !important;
+    }
+}
