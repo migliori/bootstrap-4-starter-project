@@ -13,7 +13,7 @@
   * [Bootstrap customization](#bootstrap-customization)
   * [Optimization](#optimization)
   * [Critical CSS for PHP files](#critical-css-for-php-files)
-  * [Responsive images](#running-gulp-tasks)
+  * [WebP images](#webp-images)
 * [Versionning](#versionning)
 * [Authors](#authors)
 * [License](#license)
