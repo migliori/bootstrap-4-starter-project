@@ -4,6 +4,8 @@ node_modules/
 # Local configuration file
 cgi-bin/
 
+sftp-config.json
+
 # Log Files
 *.log
 
