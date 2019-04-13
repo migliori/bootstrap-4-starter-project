@@ -1,0 +1,42 @@
+
+<div id="content-wrapper">
+
+    {% include 'inc/header.html' %}
+    {% include 'inc/navbar-main.html' %}
+
+    <section class="container">
+        <div class="row">
+            <div class="col-md order-2">
+                <hgroup class="d-sm-flex justify-content-between align-items-baseline">
+                    <h1>{{ page.title }}</h1>
+                    <h2 class="text-gray">{{ page.subtitle }}</h2>
+                </hgroup>
+                {{ page.content|raw }}
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sagittis in lectus eu consequat. Sed nec fermentum lacus, id rhoncus lectus. Morbi suscipit in ipsum nec iaculis. Sed posuere dignissim tellus a lacinia. Sed blandit velit at metus accumsan, non ullamcorper enim tempus. Praesent ante risus, ornare a magna ac, rhoncus interdum leo. In mattis porta ex, non gravida nunc porta a. Pellentesque a erat nec magna volutpat maximus. Phasellus tempor quis orci eu aliquet.</p>
+
+                <hr class="my-5">
+
+                <p>Nulla ac dui arcu. Nunc convallis eleifend nibh, sit amet dictum mi accumsan sit amet. Morbi pellentesque, felis pharetra euismod interdum, enim risus congue est, et finibus mauris dolor sed leo. Etiam pulvinar, urna non porttitor rhoncus, ante lacus laoreet eros, vel dictum dolor libero ac magna. Nullam ac lobortis neque. In tempor nulla sed ligula malesuada luctus. Etiam pharetra eget diam tincidunt interdum. Nullam porttitor egestas risus, ac consequat odio condimentum lobortis.</p>
+
+                <hr class="my-5">
+
+                <p>Cras massa purus, blandit ut lacus eu, cursus sodales lacus. Cras nisi mi, convallis tincidunt posuere eu, varius ac velit. Ut finibus maximus magna quis elementum. Curabitur eget sagittis odio. In hendrerit libero ac pulvinar ultricies. Morbi tellus enim, sagittis et magna vel, suscipit dictum nibh. Etiam euismod nisl non fermentum condimentum.</p>
+
+                <hr class="my-5">
+
+                <p>Nulla nisl justo, faucibus placerat feugiat pellentesque, scelerisque sed orci. Aliquam ligula mauris, ornare quis sem in, rhoncus volutpat felis. Ut sed turpis in arcu viverra malesuada eget vitae diam. Maecenas faucibus quis neque tristique vehicula. Duis sit amet mauris posuere, aliquet libero ut, vehicula elit. In eleifend molestie luctus. Donec eu arcu vel velit ullamcorper posuere et at odio. Etiam finibus metus sed gravida tempor. Etiam vitae mattis leo. Mauris pulvinar pellentesque odio non pharetra. Etiam eget bibendum massa. Suspendisse in ligula ac tellus semper euismod vitae id quam.</p>
+
+                <hr class="my-5">
+
+                <p>Suspendisse potenti. Maecenas suscipit erat in accumsan efficitur. Donec vulputate, nibh non aliquet iaculis, augue risus euismod erat, eu egestas turpis diam nec quam. Proin sit amet viverra augue, ac tempor est. Aliquam egestas ornare porta. Maecenas at malesuada ligula, a malesuada libero. Pellentesque vitae lacinia lorem. Nam ac eros vel massa laoreet scelerisque a a velit. Duis at lacus ex.</p>
+
+            </div>
+            <div class="col-md-3 order-1 sidebar-container mt-2 mb-5">
+                {% include 'inc/sidebar.html' %}
+            </div>
+        </div>
+    </section>
+
+</div>
+{% include 'inc/footer.html' %}

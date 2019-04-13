@@ -4,6 +4,7 @@
 
 ## Table of contents
 
+* [Overview](#overview)
 * [Quick start](#quick-start)
 * [What's included](#whats-included)
 * [Features](#features)
@@ -17,11 +18,21 @@
 * [Authors](#authors)
 * [License](#license)
 
+## Overview
+
+This project is a ready-to-use package to start a Bootstrap 4 project using a solid structure & efficient development tools such as Saas, Gulp, Altorouter, PHP Fast Cache, Twig.
+
+It is based on a clean MVC workflow, and offers a basic HTML/JS/CSS structure with a sticky navbar, a sticky sidebar, a footer always at the bottom of the page.
+
+It includes some **Bootstrap 4 PHP Classes** to build Bootstrap Navs and Sidebars. The generated elements are rendered with **[Twig Template Engine](https://twig.symfony.com/)**
+
+It also uses smart optimization tools such as [WebP generator](https://github.com/rosell-dk/webp-convert), [LoadJs](https://github.com/muicss/loadjs) and generates Critical CSS with GULP.
+
 ## Quick start
 
 ### Prerequisites
 
-* [Node.js](https://nodejs.org) installed
+* [Node.js](https://nodejs.org) installed for Gulp tasks
 * PHP Server
 
 ### Installation
@@ -31,7 +42,10 @@
 
 2. Unzip the package content to the root of your project
 
-3. Open command prompt, navigate to your project folder and run [npm](https://www.npmjs.com/): `npm install` to install node_modules.
+3. Open command prompt, navigate to your project folder
+4.  run [npm](https://www.npmjs.com/): `npm install` to install node_modules.
+5.  run [Composer](https://getcomposer.org/): `composer install` to install PHP dependencies
+
 
 ## What's included
 
@@ -40,26 +54,33 @@ Within the download you'll find the following directories and files:
 ```
 bootstrap-4-starter-project/
 ├── .htaccess
-├── adaptive-images.php
+├── composer.json
+├── composer.lockjson
+├── dropdown-page.php
 ├── gulpfile.js
+├── home.php
 ├── index.php
-├── index-with-sidebar.php
+├── LICENSE.md
+├── nav-page.php
 ├── package-lock.json
 ├── package.json
 ├── README.md
-├── ai-cache/
+├── webp_generator.php
 ├── conf/
 │   ├── .htaccess
 │   └── conf.php
 ├── assets/
+│   ├── fonts/
 │   ├── images/
 │   ├── javascripts/
 │   ├── sass/
 │   └── stylesheets/
 ├── class/
+│   ├── altorouter
 │   ├── bootstrap
 │   ├── common
 │   └── lib
+├── conf/
 ├── dist/
 ├── gulp/
 │   ├── config.json
@@ -67,31 +88,36 @@ bootstrap-4-starter-project/
 │   ├── images.js
 │   ├── sass.js
 │   └── scripts.js
-└── inc/
-    ├── css-includes.php
-    ├── js-includes.php
-    ├── main-nav.php
-    ├── page-footer.php
-    └── page-head.php
+├── i18n/
+├── inc/
+│── templates/
+└── tmp/
 ```
 
 ## Features
 
-The Bootstrap 4 starter project allows to start your project with good practices, built-in features to compile your assets with maximum optimization for fast loading.
-
-It includes some **Bootstrap 4 PHP Classes** to build Bootstrap Navs and Sidebars. The generated elements are rendered with **[Twig Template Engine](https://twig.symfony.com/)**
+* ### Routing
+ * All requests to non-existent files are rewrited to `index.php` using .htaccess
+ * `index.php` uses Altorouter to match the request, then includes the main PHP page
 
 * ### Configuration
- The configuration file - `conf/conf.php` - defines global PHP constants for:
- * global URLs
- * global paths
- * email addresses
- * environment (development/production)
- * debug (false/true)
- * icons
- * default timezone
- * db connection
- * autoloader implementation for the php engine.
+* The main configuration file - `conf/conf.php` - defines global PHP constants for:
+  * global URLs
+  * global paths
+  * environment (development/production)
+  * debug (false/true)
+  * icons
+  * db connection
+  * autoloader implementation for the php engine.
+* An additional configuration file - `conf/user-conf.php` - defines customizable PHP constants for:
+  * PHP Cache duration
+  * default timezone
+  * language settings
+  * others
+
+* ### PHP Cache
+ * PHP Cache is used only in `production` environment
+ * environment & cache duration are defined in `conf/user-conf.php`
 
 * ### Gulp main tasks
   Instructions available here: [Gulp essential tasks](https://github.com/migliori/gulp-essentials)
@@ -105,6 +131,7 @@ It includes some **Bootstrap 4 PHP Classes** to build Bootstrap Navs and Sidebar
 * ### Bootstrap 4 PHP Classes
 
   * **Nav**
+  * **Navbar**
   * **Sidebar**
 
 * ### Bootstrap 4 customization
@@ -117,9 +144,9 @@ It includes some **Bootstrap 4 PHP Classes** to build Bootstrap Navs and Sidebar
     * On Localhost css and js files are served unminified and uncompiled.
   * **Production** server:
     * **CSS** files are compiled into a single `all.min.css` with preload.
-    * **Javascript** files are compiled into a single `all.min.js` with defered loading.
+    * **Javascript** dependencies are minified and loaded with `LoadJs` asynchronously - definitely the best way to load JS dependencies.
 
-  * **The PHP files are following the best practices for fast loading**:
+  * **The main PHP pages are following the best practices for fast loading**:
 
     * Preload CSS
     * Defer Javascript
@@ -131,31 +158,11 @@ It includes some **Bootstrap 4 PHP Classes** to build Bootstrap Navs and Sidebar
 
   The critical CSS code is generated and saved in `[css-dir]/critical/[filename].min.css` where `[css-dir]` is the directory defined in `config.js` for your CSS files, and `[filename]` is the basename of the PHP source file.
 
-  Critical CSS is loaded into each page's `<head>` with a PHP include in `inc/page-head.php`.
+  GULP Critical generates your critical CSS, you have to copy/paste it into your pages.
 
-* #### Responsive images
+* #### WebP images
 
-  This package uses [Adaptive Images](http://adaptive-images.com/) to serve responsive images.
-
-  Adaptive Images has been customized with 4 breakpoints to serve custom-width images or full-width images depending on the user's device screen:
-  ```php
-  /* adaptive-images.php
-  break-points where images layout change.
-  break-points will be used for images which match pattern   filename-[xs|sm|md|lg]-[0-9]{2}.[jpe?g|gif|png]
-  ie: image-md-50.jpg will be :
-      - half screen width on md and lg screens
-      - full screen width on lower resolutions.
-  */
-
-  $breakpoints   = array(
-      'lg' => 1200,
-      'md' => 992,
-      'sm' => 768,
-      'xs' => 480
-  );
-  ```
-
-
+  We use [WebP convert](https://github.com/rosell-dk/webp-convert) to serve WebP images - all's configured, it works on the fly.
 
 ## Versioning
 

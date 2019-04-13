@@ -29,7 +29,7 @@ gulp.task('critical', getTask('critical'));
 // Watch for changes in files
 function watchFiles() {
     gulp.watch(config.sass + '**/**/*.scss', getTask('sass'));
-    gulp.watch([config.scripts + '**/**/*.js', '!' + config.scripts + '**/**/*.min.js'], getTask('scripts'));
+    gulp.watch([config.scripts + 'project.js'], getTask('scripts'));
 }
 
 gulp.task('watch', watchFiles);

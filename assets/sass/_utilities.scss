@@ -1,0 +1,96 @@
+@import 'variables';
+
+/*===================================
+=           SVG Utilities           =
+https://codepen.io/jakob-e/pen/doMoML
+Function to create an optimized svg url
+Version: 1.0.6
+===================================*/
+
+@function svg-url($svg) {
+    /**/
+    /*  Chunk up string in order to avoid*/
+    /*  "stack level too deep" error*/
+    /**/
+    $encoded: '';
+    $slice: 2000;
+    $index: 0;
+    $loops: ceil(str-length($svg)/$slice);
+    /**/
+    /*  Add missing namespace*/
+    /**/
+    @if not str-index($svg,xmlns) {
+        $svg: str-replace($svg, '<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+    }
+    @for $i from 1 through $loops {
+        $chunk: str-slice($svg, $index, $index + $slice - 1);
+        /**/
+        /*   Encode*/
+        /**/
+        $chunk: str-replace($chunk, '"', "'");
+        $chunk: str-replace($chunk, '%', '%25');
+        $chunk: str-replace($chunk, '#', '%23');
+        $chunk: str-replace($chunk, '{', '%7B');
+        $chunk: str-replace($chunk, '}', '%7D');
+        $chunk: str-replace($chunk, '<', '%3C');
+        $chunk: str-replace($chunk, '>', '%3E');
+        /**/
+        /*    The maybe list*/
+        /**/
+        /*    Keep size and compile time down*/
+        /*    ... only add on documented fail*/
+        /**/
+        /*  $chunk: str-replace($chunk, '&', '%26');*/
+        /*  $chunk: str-replace($chunk, '|', '%7C');*/
+        /*  $chunk: str-replace($chunk, '[', '%5B');*/
+        /*  $chunk: str-replace($chunk, ']', '%5D');*/
+        /*  $chunk: str-replace($chunk, '^', '%5E');*/
+        /*  $chunk: str-replace($chunk, '`', '%60');*/
+        /*  $chunk: str-replace($chunk, ';', '%3B');*/
+        /*  $chunk: str-replace($chunk, '?', '%3F');*/
+        /*  $chunk: str-replace($chunk, ':', '%3A');*/
+        /*  $chunk: str-replace($chunk, '@', '%40');*/
+        /*  $chunk: str-replace($chunk, '=', '%3D');*/
+        $encoded: #{$encoded}#{$chunk};
+        $index: $index + $slice;
+    }
+    @return url('data:image/svg+xml,#{$encoded}');
+}
+
+/*  Background svg mixin*/
+@mixin background-svg($svg) {
+    background-image: svg-url($svg);
+}
+
+%dropdown-toggle-caret {
+    position: absolute;
+    top: calc(48% - 0.8333333333333334rem);
+    right: 0.5rem;
+    width: 1.6666666666666667rem;
+    height: 1.6666666666666667rem;
+    margin: 0;
+    transition: transform 0.2s ease-in-out;
+    transform: rotate(0deg);
+    border: none;
+    background-repeat: no-repeat;
+    background-size: 7px;
+    background-position: center;
+}
+
+.dropdown-toggle {
+    position: relative;
+    .caret {
+        @extend %dropdown-toggle-caret;
+        @include background-svg('<svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class=""><path fill="#{$gray}" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z" class=""></path></svg>');
+        &.text-white {
+            @include background-svg('<svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class=""><path fill="#{$white}" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z" class=""></path></svg>');
+        }
+    }
+    &[aria-expanded='true'] .caret {
+        transform: rotate(90deg);
+    }
+}
+
+.btn.dropdown-toggle {
+    padding-right: 2.1rem !important;
+}

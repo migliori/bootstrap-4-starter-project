@@ -1,6 +1,8 @@
 <?php
 namespace common;
 
+use phpformbuilder\database\Mysql;
+
 class Utils
 {
 
@@ -8,7 +10,7 @@ class Utils
 
     public static function alert($content, $class)
     {
-        $alert = '<div class="alert ' . $class . '"><button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button><span class="text-semibold">' . $content . '</span></div>' . "\n";
+        $alert = '<div class="alert alert-dismissible ' . $class . '"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button><span class="text-semibold">' . $content . '</span></div>' . "\n";
 
         return $alert;
     }
@@ -28,7 +30,7 @@ class Utils
                 $start_card .= '        <div class="heading-elements">' . "\n";
                 if (in_array('collapse', $heading_elements)) {
                     $random_id = uniqid();
-                    $start_card .= '               <a class="dropdown-toggle" data-toggle="collapse" href="#' . $random_id . '" role="button" aria-expanded="false" aria-controls="' . $random_id . '"><span class="caret"></span></a>' . "\n";
+                    $start_card .= '               <a class="dropdown-toggle" data-toggle="collapse" href="#' . $random_id . '" role="button" aria-expanded="false" aria-controls="' . $random_id . '"></a>' . "\n";
                 }
                 if (in_array('close', $heading_elements)) {
                     $start_card .= '               <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>' . "\n";
@@ -41,7 +43,7 @@ class Utils
         if ($has_body === true) {
             $collapsed = '';
             if (preg_match('`card-collapsed`', $classname)) {
-                $collapsed = ' collapsed';
+                $collapsed = ' collapse';
             }
             $start_card .= '    <div class="card-body' . $collapsed . '"';
             if (isset($random_id)) {
@@ -77,27 +79,11 @@ class Utils
         } else {
             $has_body = false;
         }
-        $panel = self::startCard($title, $classname, $heading_elements, $has_body);
-        $panel .= $content;
-        $panel .= self::endCard($has_body);
+        $card = self::startCard($title, $classname, $heading_elements, $has_body);
+        $card .= $content;
+        $card .= self::endCard($has_body);
 
-        return $panel;
-        /*<div class="panel bg-primary">
-            <div class="panel-heading">
-                <h6 class="panel-title">Primary solid<a class="heading-elements-toggle"><i class="icon-more"></i></a></h6>
-                <div class="heading-elements">
-                    <ul class="icons-list">
-                        <li><a data-action="collapse"></a></li>
-                        <li><a data-action="reload"></a></li>
-                        <li><a data-action="close"></a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="panel-body">
-                Primary solid panel using <code>.bg-primary</code> class
-            </div>
-        </div>*/
+        return $card;
     }
 
     /* Numbers */
@@ -139,6 +125,9 @@ class Utils
 
     public static function dateUsToFr($date)
     {
+        if (SITE_LANG == 'en') {
+            return $date;
+        }
         sscanf($date, "%4s-%2s-%2s", $y, $mo, $d);
 
         return $d.'-'.$mo.'-'.$y;
@@ -156,6 +145,36 @@ class Utils
         $retour = preg_replace('/[0-9]{4}-[0-9]{2}-[0-9]{2} ([0-9]{2}:[0-9]{2}:[0-9]{2})/', '$1', $dateTime);
 
         return $retour;
+    }
+
+    public static function dateTimeToDateText($date_time, $lang = 'fr') // 2014-09-21 => dimanche 21 septembre 2014 OU sunday 21 september
+    {
+        $date = new \DateTime($date_time);
+        if ($lang == 'fr') {
+            $jour_semaine = self::traduireJour($date->format('N')); // N = jour de la semaine numérique (1 = lundi)
+            $numero_jour = $date->format('j'); // Jour du mois sans les zéros initiaux
+            $mois = self::traduireMois($date->format('n')); // Mois sans les zéros initiaux
+            $annee = $date->format('Y');
+
+            return $jour_semaine . ' ' . $numero_jour . ' ' . $mois . ' ' . $annee;
+        } else { // en
+            return $date->format('l j F');
+        }
+    }
+
+    public static function traduireJour($numero)
+    {
+        $tabJour = array(1 => 'lundi', 2 => 'mardi', 3 => 'mercredi', 4 => 'jeudi', 5 => 'vendredi', 6 => 'samedi', 7 => 'dimanche');
+
+        return $tabJour[(int) $numero]; // (int) supprime les zéros initiaux
+    }
+
+    public static function traduireMois($numero)
+    {
+    // pour les répertoires des factures, pas de multilingue
+        $tabMois = array(1 => 'janvier', 2 => 'fevrier', 3 => 'mars', 4 => 'avril', 5 => 'mai', 6 => 'juin', 7 => 'juillet', 8 => 'aout', 9 => 'septembre', 10 => 'octobre', 11 => 'novembre', 12 => 'decembre');
+
+        return $tabMois[(int) $numero]; // (int) supprime les zéros initiaux
     }
 
     public static function addYear()
@@ -179,7 +198,7 @@ class Utils
 
     /* Strings */
 
-    public static function makeUrlVar($var)
+    public static function sanitize($var)
     {
         $ancienNom = trim($var);
         $charset = 'utf-8';
@@ -232,6 +251,7 @@ class Utils
      */
     public static function camelCase($str, array $noStrip = array())
     {
+        $str = self::sanitize($str);
         // non-alpha and non-numeric characters become spaces
         $str = preg_replace('/[^a-zA-Z0-9' . implode("", $noStrip) . ']+/i', ' ', $str);
         $str = trim($str);
@@ -252,6 +272,15 @@ class Utils
         return $str;
     }
 
+    public static function remplacerGuillemets($str = '', $addSlashes = true) // $str = chaine de remplacement
+    {
+        if ($addSlashes == true) {
+            return addslashes(str_replace('"', '', $str));
+        } else {
+            return str_replace('"', '', $str);
+        }
+    }
+
     public static function truncateString($chaine, $nbreDeCaracteres)
     {
         if (strlen($chaine) <= $nbreDeCaracteres) {
@@ -262,6 +291,11 @@ class Utils
         $texte = substr($texte, 0, $pos); //on coupe ce qui est après
 
         return $texte . $etc;
+    }
+
+    public static function icomoon($icon, $additional_class = '')
+    {
+        return '<svg class="icon ' . $icon . ' ' . $additional_class . '"><use xlink:href="' . ASSETS_URL . 'images/symbol-defs.svg#' . $icon . '"></use></svg>';
     }
 
     /* Data */
@@ -347,5 +381,71 @@ class Utils
         }
 
         return $index_array;
+    }
+
+
+    /* =============================================
+        META + SITE FUNCTIONS
+    ============================================= */
+
+    /**
+     * build a h1 title
+     * @param  Array $match Altorouter match
+     * @return String       the H1 title
+     */
+    public static function buildPageTitle($match)
+    {
+        $h1 = '';
+        $h2 = '';
+        $rubrique = '';
+        if (isset($match['params']['rubrique']) && !empty($match['params']['rubrique'])) {
+            $rubrique = $match['params']['rubrique'];
+        }
+        if (isset($match['params']['categorie']) && !empty($match['params']['categorie'])) {
+            $h1 .= $_SESSION['categorie_nom'];
+
+            $cat = $match['params']['categorie'];
+
+            // sc list
+            if (!isset($match['params']['sc'])) {
+                $tableau_sc = $_SESSION['tableau_sc'];
+                if (isset($tableau_sc->$rubrique)) {
+                    $sc_count = $tableau_sc->$rubrique->$cat->sc_count;
+                    if ($sc_count > 0) {
+                        $sc_list = '';
+                        $length_exceeds = false;
+                        for ($i=0; $i < $sc_count; $i++) {
+                            if (strlen($sc_list) <= 100) {
+                                $sc_list .= $tableau_sc->$rubrique->$cat->sc_nom[$i] . ', ';
+                            } else {
+                                $length_exceeds = true;
+                            }
+                        }
+                        $h1 .= ': ' . rtrim($sc_list, ', ');
+                        if ($length_exceeds === true) {
+                            $h1 .= ', ...';
+                        }
+                    }
+                }
+            } else {
+                $h1 .= ': ' . $_SESSION['sc_nom'];
+            }
+
+            if (!empty($rubrique)) {
+                $h2 = '<a href="' . BASE_URL . $_SESSION['rubrique'] . '" title="' . $_SESSION['rubrique_nom'] . '" class="small small-caps text-muted d-block">' . $_SESSION['rubrique_nom'] . '</a>';
+            }
+        } elseif ($match['name'] == 'articles-recherche') {
+            $h1 = lang('resultats-de-votre-recherche');
+        } elseif ($match['name'] == 'wishlist') {
+            $h1 = lang('ma-wishlist');
+        } else {
+            $h1 = $_SESSION['rubrique_nom'];
+        }
+
+        if (isset($match['params']['page']) && !empty($match['params']['page'])) {
+            $h1 .= '<small class="ml-3">page ' . ltrim($match['params']['page'], 'p') . '</small>';
+        }
+
+        return array('h1' => $h1, 'h2' => $h2);
     }
 }

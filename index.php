@@ -1,41 +1,26 @@
 <?php
-@session_start();
-include_once 'conf/conf.php';
-?>
-    <!doctype html>
-    <html lang="en">
+use altorouter\AltoRouter;
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="icon" href="/favicon.ico">
-        <title>Fixed top navbar example for Bootstrap 4</title>
-        <!-- adaptative-images -->
-        <script>
-        document.cookie = 'resolution=' + Math.max(screen.width, screen.height) + ("devicePixelRatio" in window ? "," + devicePixelRatio : ",1") + '; path=/';
-        </script>
-        <?php include_once 'inc/page-head.php'; ?>
-        <?php include_once 'inc/css-includes.php'; ?>
-    </head>
+header("Content-Type: text/html");
+include 'class/altorouter/AltoRouter.php';
+$router = new AltoRouter();
+$router->addMatchTypes(array('n' => 'nav-2|nav-3'));
+$router->addMatchTypes(array('d' => 'dropdown-item-1|dropdown-item-2|dropdown-item-3|dropdown-item-4'));
 
-    <body class="navbar-fixed-top">
-        <?php include_once 'inc/main-nav.php'; ?>
-        <main role="main" class="container">
-            <h1 class="text-center my-5"><i class="fas fa-anchor"></i>Sticky footer with fixed navbar</h1>
-            <p class="text-justify lead mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <hr>
-            <div class="row">
-                <div class="col"><img data-src="holder.js/300x200" class="img-thumbnail mx-auto d-block" alt=""></div>
-                <div class="col">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                </div>
-            </div>
+// Main routes that non-customers see
 
-        </main>
-        <?php include_once 'inc/page-footer.php'; ?>
-        <?php include_once 'inc/js-includes.php'; ?>
-    </body>
+$router->map('GET|POST', '/', 'home.php', 'home');
 
-    </html>
+$router->map('GET|POST', '/[n:nav]', 'nav-page.php', 'nav-page');
+
+$router->map('GET|POST', '/[n:nav]/[d:dropdown]', 'dropdown-page.php', 'dropdown-page');
+
+/* Match the current request */
+$match = $router->match();
+if ($match) {
+    require $match['target'];
+} else {
+    $is_404 = true;
+    header("HTTP/1.0 404 Not Found");
+    require 'home.php';
+}

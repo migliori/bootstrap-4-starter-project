@@ -9,3 +9,9 @@ cgi-bin/
 
 # Generated files
 dist/
+
+#Temp cached files
+tmp/
+
+# Composer vendor
+vendor/

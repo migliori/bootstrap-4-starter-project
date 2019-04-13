@@ -1,0 +1,13 @@
+{
+    "nav_pages": {
+        "name": ["Home", "Nav 2", "Nav 3"],
+        "url": ["", "nav-2", "nav-3"]
+    },
+    "dropdown_pages": {
+        "nav_url": ["nav-3"],
+        "nav-3": {
+            "name": ["Dropdown item 1", "Dropdown item 2", "Dropdown item 3", "Dropdown item 4"],
+            "url": ["dropdown-item-1", "dropdown-item-2", "dropdown-item-3", "dropdown-item-4"]
+        }
+    }
+}

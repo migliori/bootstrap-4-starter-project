@@ -25,42 +25,37 @@
 /* components*/
 @import 'components.scss';
 
+/* main nav*/
+@import 'main-nav.scss';
+
 /* sidebar*/
 @import 'sidebar.scss';
+
+/* sidebar*/
+@import 'utilities.scss';
 
 /* Sticky footer styles
 -------------------------------------------------- */
 
 html {
     position: relative;
-    min-height: 100%;
+    height: 100%;
 }
 
 body {
+    height: 100%;
     &.navbar-fixed-top {
         padding-top: $navbar-height;
     }
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
-    > .container {
-        padding: 60px 15px 0;
-    }
 }
 
-.content-wrapper {
-    display: table-cell;
-    padding-left: $grid-gutter-width;
-    padding-right: $grid-gutter-width;
+#content-wrapper {
+    min-height: calc(100vh - #{$footer-height});
 }
 
-.footer {
-    position: absolute;
-    bottom: 0;
+#footer {
     width: 100%;
-    /* Set the fixed height of the footer here */
-    height: 60px;
-    line-height: 60px;
-    /* Vertically center the text there */
+    height: $footer-height;
     background-color: #f5f5f5;
 }
 
@@ -68,6 +63,5 @@ body {
 -------------------------------------------------- */
 
 h1 {
-    font-family: 'Berkshire Swash', cursive;
-    color: #34b6a5;
+    color: $gray-dark;
 }

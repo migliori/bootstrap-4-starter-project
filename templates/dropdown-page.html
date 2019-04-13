@@ -1,0 +1,23 @@
+
+<div id="content-wrapper">
+
+    {% include 'inc/header.html' %}
+    {% include 'inc/navbar-main.html' %}
+
+    <section class="container">
+        <div class="row">
+            <div class="col-md order-2">
+                <hgroup class="d-sm-flex justify-content-between align-items-baseline">
+                    <h1>{{ page.title }}</h1>
+                    <h2 class="text-gray">{{ page.subtitle }}</h2>
+                </hgroup>
+                {{ page.content|raw }}
+            </div>
+            <div class="col-md-3 order-1 sidebar-container mt-2 mb-5">
+                {% include 'inc/sidebar.html' %}
+            </div>
+        </div>
+    </section>
+
+</div>
+{% include 'inc/footer.html' %}

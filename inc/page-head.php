@@ -1,37 +1,102 @@
-<?php
-// generate token for Content-Security-Policy
-$cross_policy_token = bin2hex(openssl_random_pseudo_bytes(16));
-?>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <?php
+    $current_url = 'https://' . $_SERVER['HTTP_HOST'] . rtrim($_SERVER['REQUEST_URI'], '/');
+    ?>
+    <title><?php echo $meta['title']; ?></title>
+    <meta name="description" content="<?php echo $meta['description']; ?>">
     <meta name="locations" content="Global">
     <meta name="robots" content="index, follow">
     <meta name="distribution" content="Global">
-    <meta name="language" content="en">
-    <meta name="author" content="<?php echo AUTHOR; ?>">
+    <meta name="language" content="<?php echo SITE_LANG; ?>">
+    <meta name="author" content="Gilles Migliori">
     <meta content="summary" name="twitter:card">
-    <meta content="@twittername" name="twitter:creator">
-    <meta content="https://www.domain.com" name="twitter:domain">
-    <meta content="Website Main Title" property="og:title">
-    <meta content="Website Main Description" property="og:description">
+    <meta content="<?php echo $_SERVER['HTTP_HOST']; ?>" name="twitter:domain">
+    <meta content="<?php echo $meta['title']; ?>" property="og:title">
+    <meta content="<?php echo $meta['description']; ?>" property="og:description">
     <meta content="website" property="og:type">
-    <meta content="Website Name" property="og:site_name">
-    <meta content="logo.png" property="og:image">
-    <meta content="<?php echo BASEURL; ?>" property="og:url">
-    <meta content="en_GB" property="og:locale">
-    <meta content="1234567891234567" property="fb:app_id">
+    <meta content="My Website" property="og:site_name">
+    <meta content="<?php echo $current_url ?>" property="og:url">
+    <meta content="<?php echo LOCALE; ?>" property="og:locale">
+    <meta content="your-fb-app-id" property="fb:app_id">
     <meta name="category" content="internet">
-    <link href="<?php echo BASEURL; ?>" rel="canonical">
-    <meta property="og:image" content="<?php echo BASEURL; ?>assets/images/screenshot.jpg">
+    <meta property="og:image" content="<?php echo BASE_URL . 'assets/images/screenshot.jpg'; ?>">
     <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1080">
-    <meta property="og:image:height" content="810">
-    <meta content="default-src 'self' https://www.google.com; style-src 'self' http://fonts.googleapis.com https://fonts.googleapis.com/ https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' https://stats.g.doubleclick.net data: http://www.google-analytics.com; font-src data: 'self' https://fonts.gstatic.com http://fonts.googleapis.com http://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://ajax.googleapis.com https://www.google.com https://www.gstatic.com https://www.googletagmanager.com 'unsafe-eval' http://www.google-analytics.com https://ajax.cloudflare.com nonce-<?php echo $cross_policy_token; ?>" http-equiv="Content-Security-Policy">
-    <?php
-    $file_name = preg_replace('`\.[a-z]+`', '', $_SERVER['SCRIPT_NAME']);
-    $critical_css_file = ROOT . 'assets/stylesheets/critical' . $file_name . '.min.css';
-    if (file_exists($critical_css_file)) {
-        echo '
-<style type="text/css">
-' . file_get_contents($critical_css_file) . '
-</style>' . "\n";
+    <meta property="og:image:width" content="400">
+    <meta property="og:image:height" content="300">
+    <link rel="icon" href="/favicon.ico">
+    <link href="<?php echo $current_url; ?>" rel="canonical">
+
+    <!-- Font loading - https://google-webfonts-helper.herokuapp.com/fonts  -->
+
+    <link rel="preload" crossorigin="anonymous" href="/assets/fonts/overpass-v2-latin-300.woff2" as="font">
+    <link rel="preload" crossorigin="anonymous" href="/assets/fonts/overpass-v2-latin-regular.woff2" as="font">
+    <link rel="preload" crossorigin="anonymous" href="/assets/fonts/overpass-v2-latin-600.woff2" as="font">
+    <link rel="preload" crossorigin="anonymous" href="/assets/fonts/raleway-v12-latin-italic.woff2" as="font">
+    <style>
+    /* overpass-300 - latin */
+    @font-face {
+      font-family: 'Overpass Light';
+      font-display: swap;
+      font-style: normal;
+      font-weight: 300;
+      src: local('Overpass Light'), local('Overpass-Light'),
+           url('/assets/fonts/overpass-v2-latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+           url('/assets/fonts/overpass-v2-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+           unicode-range: U+000-5FF; /* Latin glyphs */
     }
-?>
+    /* overpass-regular - latin */
+    @font-face {
+      font-family: 'Overpass Regular';
+      font-display: swap;
+      font-style: normal;
+      font-weight: 400;
+      src: local('Overpass Regular'), local('Overpass-Regular'),
+           url('/assets/fonts/overpass-v2-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+           url('/assets/fonts/overpass-v2-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+           unicode-range: U+000-5FF; /* Latin glyphs */
+    }
+    /* overpass-600 - latin */
+    @font-face {
+      font-family: 'Overpass SemiBold';
+      font-display: swap;
+      font-style: normal;
+      font-weight: 600;
+      src: local('Overpass SemiBold'), local('Overpass-SemiBold'),
+           url('/assets/fonts/overpass-v2-latin-600.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+           url('/assets/fonts/overpass-v2-latin-600.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+           unicode-range: U+000-5FF; /* Latin glyphs */
+    }
+    /* raleway-italic - latin */
+    @font-face {
+      font-family: 'Raleway Italic';
+      font-display: swap;
+      font-style: italic;
+      font-weight: 400;
+      src: local('Raleway Italic'), local('Raleway-Italic'),
+           url('/assets/fonts/raleway-v12-latin-italic.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+           url('/assets/fonts/raleway-v12-latin-italic.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+           unicode-range: U+000-5FF; /* Latin glyphs */
+    }
+    </style>
+    <script type="application/ld+json"> {
+    "@context" : "http://schema.org",
+    "@type" : "HomeGoodsStore",
+    "name":"My Website",
+    "url":"https://www.heritage-de-france.fr",
+    "image":"<?php echo BASE_URL . 'assets/images/screenshot.jpg'; ?>",
+    "logo":"<?php echo BASE_URL . 'assets/images/logo.png'; ?>",
+    "email":"me@my-website.com",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "121 My Street",
+        "addressLocality": "CITY",
+        "addressRegion": "COUNTRY",
+        "postalCode": "11111"
+      },
+    "telephone":"3301010101",
+    "openingHours": [
+    "Mo-Sa 09:00-18:30"],
+    "paymentAccepted":"Visa, Master Card",
+    "priceRange": "€10 - €9500"
+    } </script>

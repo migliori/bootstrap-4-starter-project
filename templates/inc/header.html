@@ -1,0 +1,31 @@
+{% set header_bg          = 'bg-gray-100' %}
+{% set header_btn_bg      = 'bg-gray-300' %}
+{% set header_btn_color   = 'text-gray-900' %}
+{% set header_color_dark  = 'text-gray-900' %}
+{% set header_color       = 'text-gray-700' %}
+{% set header_color_light = 'text-gray-600' %}
+{% set header_border      = 'border-gray-300' %}
+<header id="header-main" class="container-fluid py-4 {{ header_bg }}">
+    <div class="d-flex">
+        <p class="h2 text-gray-600">Bootstrap 4 Started project Demo</p>
+        <div class="ml-auto" id="languages">
+            {% if constant('SITE_LANG') == 'fr' %}
+                <a href="#" class="btn btn-sm {{ header_btn_bg }} {{ header_btn_color }} mr-3 disabled" title="Version Française">FR</a>
+                <form id="change-language-form" action="{{ session.language_btn_link }}" method="POST" class="form-inline d-inline-block">
+                    <input type="hidden" name="sid" value="{{ session.sid }}">
+                    <input type="hidden" name="s_hash" value="{{ session.s_hash }}">
+                    <button type="submit" class="btn btn-sm {{ header_border }} {{ header_btn_color }} mr-3" title="English version">EN</button>
+                </form>
+                <!-- <a href="{{ session.language_btn_link }}" class="btn btn-sm btn-outline-secondary mr-3" title="English version">EN</a> -->
+            {% else %}
+                <!-- <a href="{{ session.language_btn_link }}" class="btn btn-sm btn-outline-secondary mr-3" title="Version Française">FR</a> -->
+                <form id="change-language-form" action="{{ session.language_btn_link }}" method="POST" class="form-inline d-inline-block">
+                    <input type="hidden" name="sid" value="{{ session.sid }}">
+                    <input type="hidden" name="s_hash" value="{{ session.s_hash }}">
+                    <button type="submit" class="btn btn-sm {{ header_border }} {{ header_btn_color }} mr-3" title="Version Française">FR</button>
+                </form>
+                <a href="#" class="btn btn-sm {{ header_btn_bg }} {{ header_btn_color }} mr-3 disabled" title="English version">EN</a>
+            {% endif %}
+        </div>
+    </div>
+</header>

@@ -25,26 +25,40 @@ class Nav
         if ($active === true) {
             $link_attr = Utils::addClass($this->active_link_class, $link_attr);
         }
+        $tooltip = '';
         // wrap text with span if it doesn't begin/finish with a tag
-        if (!preg_match('`^<(.*)+>`', trim($text))) {
-            $text = '<span class="sidenav-text">' . $text . '</span>';
-        }
+        /*if (!preg_match('`^<(.*)+>`', trim($text))) {
+            $tooltip = $text;
+            $text    = '<span class="nav-text">' . $text . '</span>';
+        }*/
         $dropdown = '';
         if (!empty($dropdown_id)) {
             // create subnav if any
             $this->$dropdown_obj_id = new Nav($dropdown_id, $dropdown_class);
             $dropdown               = $this->$dropdown_obj_id;
-            $link_attr              = Utils::addClass('dropdown-toggle collapsed', $link_attr);
+            $link_attr              = Utils::addClass('d-flex align-items-center justify-content-between dropdown-toggle collapsed', $link_attr);
+            // dropdown-plus-icon
+            if (strpos($item_attr, 'dropdown-plus-icon') !== false) {
+                // dropdown with "+" sign on small screens
+                $text .= '<span class="caret d-none d-md-inline-block"></span><span class="nav-mobile-dropdown-link d-inline-block d-md-none">
+                    <i class="icon-plus far fa-plus-square p-1 text-gray-800"></i>
+                    <i class="icon-minus d-none far fa-minus-square p-1 text-gray-800"></i>
+                </span>';
+            } else {
+                // dropdown with caret
+                $text .= '<span class="caret"></span>';
+            }
         }
         $this->items[] = array(
-            'url'            => $url,
-            'text'           => $text,
+            'dropdown'       => $dropdown,
+            'dropdown_class' => $dropdown_class,
+            'dropdown_id'    => $dropdown_id,
             'icon'           => $icon,
             'item_attr'      => $item_attr,
             'link_attr'      => $link_attr,
-            'dropdown_class' => $dropdown_class,
-            'dropdown_id'    => $dropdown_id,
-            'dropdown'       => $dropdown
+            'text'           => $text,
+            'tooltip'        => $tooltip,
+            'url'            => $url
         );
     }
 }

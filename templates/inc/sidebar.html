@@ -1,0 +1,115 @@
+<!-- Main sidebar -->
+<!-- toggler only for small screens -->
+<a href="#" class="sidebar-toggler position-absolute m-2 bg-white d-block d-md-none" data-toggle="collapse" data-target="#sidebar-main" aria-controls="sidebar-main" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="sidebar-toggler-icon"></span>
+</a>
+<nav id="{{ sidebar.id }}" class="sidebar sidebar-main {{ sidebar.class }}">
+    <div class="sidebar-content">
+{#
+loop categories
+#}
+{% for categorie in sidebar.categories %}
+        <div class="sidebar-category {{ sidebar.class }}">
+{#
+if username|userinfo
+#}
+{% if categorie.username|length > 0 or categorie.userinfo|length > 0 %}
+            <div class="sidebar-user">
+                <div class="category-content">
+{% if categorie.username|length > 0 %}
+                    <h6>{{ categorie.username }}</h6>
+{% endif %}
+{% if categorie.userinfo|length > 0 %}
+                    <span>{{ categorie.userinfo }}</span>
+{% endif %}
+                </div>
+            </div>
+{% endif %}
+{#
+endif username|userinfo
+#}
+{% if categorie.title|length > 0 %}
+                <div class="category-title">
+                    {{ categorie.title|raw }}
+                </div>
+{% endif %}
+{#
+loop navs
+#}
+{% for nav in categorie.navs %}
+{% if categorie.collapsible == true %}
+{% if categorie.collapsed == true and constant('COLLAPSE_INACTIVE_SIDEBAR_CATEGORIES') == true %}
+            <div class="category-content collapse" id="{{ nav.id }}">
+{% else %}
+            <div class="category-content collapse show" id="{{ nav.id }}">
+{% endif %}
+{% else %}
+            <div class="category-content" id="{{ nav.id }}">
+{% endif %}
+                <ul class="{{ nav.class }}">
+{#
+loop nav items
+#}
+{% for item in nav.items %}
+                    <li{{ item.item_attr|raw }}>
+{% if item.url|length > 0 %}
+                        <a href="{{ item.url }}" title="{{ item.tooltip|raw }}" {{ item.link_attr|raw }}>
+{% endif %}
+{% if item.icon|length > 0 %}
+                            <i class="{{ item.icon|raw }}"></i>
+{% endif %}
+                            {{ item.text|raw }}
+{% if item.url|length > 0 %}
+                        </a>
+{% endif %}
+{#
+if dropdown
+#}
+{% if item.dropdown|length > 0 %}
+                        <ul id="{{ item.dropdown_id }}" class="{{ item.dropdown_class }}">
+{#
+loop dropdown items
+#}
+{% for dropdownitem in item.dropdown.items %}
+                            <li{{ dropdownitem.item_attr|raw }}>
+{% if dropdownitem.url|length > 0 %}
+                                <a href="{{ dropdownitem.url }}" title="{{ dropdownitem.tooltip|raw }}" {{ dropdownitem.link_attr|raw }}>
+{% endif %}
+{% if dropdownitem.icon|length > 0 %}
+                                    <i class="{{ dropdownitem.icon|raw }}"></i>
+{% endif %}
+                                    {{ dropdownitem.text|raw }}
+{% if dropdownitem.url|length > 0 %}
+                                </a>
+{% endif %}
+{#
+end loop dropdown items
+#}                                  </li>
+{% endfor %}
+                        </ul>
+                        <!-- /Sub Nav -->
+{#
+end if dropdown
+#}
+{% endif %}
+{#
+end loop nav items
+#}                          </li>
+{% endfor %}
+                </ul>
+                <!-- /Nav -->
+            </div>
+            <!-- /Category Content -->
+{#
+end loop navs
+#}
+{% endfor %}
+        </div>
+        <!-- /Sidebar Category -->
+{#
+end loop categories
+#}
+{% endfor %}
+    </div>
+<!-- /main sidebar -->
+</nav>

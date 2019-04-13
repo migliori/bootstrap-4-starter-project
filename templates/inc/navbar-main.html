@@ -1,0 +1,74 @@
+<nav id="{{ nav.id }}" class="{{ nav.class }}">
+    <div class="container">
+        <div class="d-flex d-md-none w-100 justify-content-end px-2 py-1">
+            <span class="navbar-expand-md navbar-light">
+                <button class="{{ header_color_light }} navbar-toggler" data-toggle="collapse" data-target="#{{ nav.id }}-content"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            </span>
+        </div>
+        <div class="collapse navbar-collapse px-2 px-md-0" id="{{ nav.id }}-content">
+            <ul class="nav navbar-nav w-100 justify-content-between">
+{#
+loop nav items
+#}
+{% for item in nav.items %}
+                <li{{ item.item_attr|raw }}>
+    {% if item.url|length > 0 %}
+    {#
+    if not "#"
+    #}
+                {% if item.url|length > 1 %}
+                        <a href="{{ item.url }}" title="{{ item.tooltip|raw }}" {{ item.link_attr|raw }}>
+                {% else %}
+                        <a title="{{ item.tooltip|raw }}" {{ item.link_attr|raw }}>
+                {% endif %}
+    {% endif %}
+    {% if item.icon|length > 0 %}
+                        <i class="{{ item.icon|raw }}"></i>
+    {% endif %}
+            {{ item.text|raw }}
+    {% if item.url|length > 0 %}
+                    </a>
+    {% endif %}
+    {#
+    if dropdown
+    #}
+    {% if item.dropdown|length > 0 %}
+               <ul id="{{ item.dropdown_id }}" class="{{ item.dropdown_class }}">
+        {#
+        loop dropdown items
+        #}
+        {% for dropdownitem in item.dropdown.items %}
+                    <li{{ dropdownitem.item_attr|raw }}>
+            {% if dropdownitem.url|length > 0 %}
+                        <a href="{{ dropdownitem.url }}" title="{{ dropdownitem.tooltip|raw }}" {{ dropdownitem.link_attr|raw }}>
+            {% endif %}
+            {% if dropdownitem.icon|length > 0 %}
+                            <i class="{{ dropdownitem.icon|raw }}"></i>
+            {% endif %}
+                {{ dropdownitem.text|raw }}
+            {% if dropdownitem.url|length > 0 %}
+                        </a>
+            {% endif %}
+            {#
+            end loop dropdown items
+            #}
+                    </li>
+        {% endfor %}
+                </ul>
+                <!-- /Sub Nav -->
+        {#
+        end if dropdown
+        #}
+    {% endif %}
+{#
+end loop nav items
+#}
+                </li>
+{% endfor %}
+            </ul>
+        </div>
+        <!-- /collapse -->
+    </div>
+    <!-- /container -->
+</nav>
+<!-- /Nav -->

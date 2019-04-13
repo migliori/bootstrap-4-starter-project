@@ -1,0 +1,13 @@
+{
+    "nav_pages": {
+        "name": ["Accueil", "Menu 2", "Menu 3"],
+        "url": ["", "menu-2", "menu-3"]
+    },
+    "dropdown_pages": {
+        "nav_url": ["menu-3"],
+        "menu-3": {
+            "name": ["Sous Menu 1", "Sous Menu 2", "Sous Menu 3", "Sous Menu 4"],
+            "url": ["sous-menu-1", "sous-menu-2", "sous-menu-3", "sous-menu-4"]
+        }
+    }
+}
