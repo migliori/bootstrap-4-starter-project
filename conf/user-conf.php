@@ -85,7 +85,7 @@ define('MAIN_NAV_ACTIVE_LINK_CLASS', 'bg-white');
 
 define('SIDEBAR_CLASS', 'sidebar-default sidebar-separate sidebar-fixed');
 
-define('CACHE_DURATION', '7200'); // 2hours - 7200
+define('CACHE_DURATION', '1'); // 2hours - 7200
 define('RECAPTCHA_SITE_KEY', 'MY-PUBLIC-KEY');
 define('RECAPTCHA_SECRET_KEY', 'MY-SECRET-KEY');
 

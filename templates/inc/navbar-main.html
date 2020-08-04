@@ -12,7 +12,7 @@ loop nav items
 #}
 {% for item in nav.items %}
                 <li{{ item.item_attr|raw }}>
-    {% if item.url|length > 0 %}
+    {% if item.url is not empty %}
     {#
     if not "#"
     #}
@@ -22,31 +22,31 @@ loop nav items
                         <a title="{{ item.tooltip|raw }}" {{ item.link_attr|raw }}>
                 {% endif %}
     {% endif %}
-    {% if item.icon|length > 0 %}
+    {% if item.icon is not empty %}
                         <i class="{{ item.icon|raw }}"></i>
     {% endif %}
             {{ item.text|raw }}
-    {% if item.url|length > 0 %}
+    {% if item.url is not empty %}
                     </a>
     {% endif %}
     {#
     if dropdown
     #}
-    {% if item.dropdown|length > 0 %}
+    {% if item.dropdown is not empty %}
                <ul id="{{ item.dropdown_id }}" class="{{ item.dropdown_class }}">
         {#
         loop dropdown items
         #}
         {% for dropdownitem in item.dropdown.items %}
                     <li{{ dropdownitem.item_attr|raw }}>
-            {% if dropdownitem.url|length > 0 %}
+            {% if dropdownitem.url is not empty %}
                         <a href="{{ dropdownitem.url }}" title="{{ dropdownitem.tooltip|raw }}" {{ dropdownitem.link_attr|raw }}>
             {% endif %}
-            {% if dropdownitem.icon|length > 0 %}
+            {% if dropdownitem.icon is not empty %}
                             <i class="{{ dropdownitem.icon|raw }}"></i>
             {% endif %}
                 {{ dropdownitem.text|raw }}
-            {% if dropdownitem.url|length > 0 %}
+            {% if dropdownitem.url is not empty %}
                         </a>
             {% endif %}
             {#

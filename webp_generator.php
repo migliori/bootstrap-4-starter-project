@@ -1,6 +1,11 @@
 <?php
 use WebPConvert\WebPConvert;
 
+/* =============================================
+    CHMOD vendor/rosell-dk/webp-convert/src/Converters/Binaries/cwebp-linux 0755
+    to avoid any error
+============================================= */
+
 // Initialise your autoloader (this example is using Composer)
 require 'vendor/autoload.php';
 include_once 'conf/conf.php';

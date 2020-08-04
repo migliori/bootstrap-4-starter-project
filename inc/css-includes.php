@@ -1,6 +1,7 @@
 <?php
 if (ENVIRONMENT === 'development') {
     ?>
+    <link href="<?php echo ASSETS_URL; ?>stylesheets/pace-theme-minimal.css" media="screen" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<?php echo ASSETS_URL; ?>stylesheets/bootstrap.css">
     <link href="<?php echo ASSETS_URL; ?>stylesheets/project.css" media="screen" rel="stylesheet" type="text/css" />
 <?php

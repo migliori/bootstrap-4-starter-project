@@ -1,4 +1,8 @@
 <?php
+
+error_reporting('E_ALL');
+ini_set('display_errors', 1);
+
 use common\Config;
 use common\Utils;
 use Phpfastcache\CacheManager;

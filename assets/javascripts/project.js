@@ -175,11 +175,11 @@ loadjs.ready('core', function() {
     ], function() {
         loadjs.done('bundleB');
     });
-    loadjs([
+    /*loadjs([
         '/assets/javascripts/plugins/loaders/lazyload.min.js'
     ], function() {
         loadjs.done('bundleC');
-    });
+    });*/
 });
 
 // core + hoverIntent loaded
