@@ -1,16 +1,14 @@
-
 <div id="content-wrapper">
 
     {% include 'inc/header.html' %}
     {% include 'inc/navbar-main.html' %}
 
     {% if message_404 is not empty %}
-        <div class="container py-4">{{ message_404|raw }}</div>
+    <div class="container py-4">{{ message_404|raw }}</div>
     {% endif %}
 
-    <hgroup class="container-fluid text-center mb-3">
-        <h1>{{ page.title }}</h1>
-    </hgroup>
+    <h1>{{ page.title }}</h1>
+
     <section class="container">
         <div class="row">
             <div class="col-md">

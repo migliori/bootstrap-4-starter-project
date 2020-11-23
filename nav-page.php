@@ -53,20 +53,20 @@ if (is_null($CachedString->get()) || isset($_SESSION["admin_auth"]) || ENVIRONME
     $page = $CachedString->get();
 }
 
-require_once CLASS_DIR . 'lib/Twig/Autoloader.php';
-
-Twig_Autoloader::register();
-
-$loader = new Twig_Loader_Filesystem('templates');
-$twig   = new Twig_Environment($loader, array('debug' => DEBUG));
+$loader = new \Twig\Loader\FilesystemLoader('templates');
+$twig   = new \Twig\Environment($loader, array(
+    'debug' => DEBUG,
+));
 
 $twig->addGlobal('session', $_SESSION);
 $twig->addGlobal('match', $match);
 
 if (ENVIRONMENT == 'development') {
-    $twig->addExtension(new Twig_Extension_Debug());
+    $twig->addExtension(new \Twig\Extension\DebugExtension());
+    $twig->enableDebug();
 }
-$template = $twig->loadTemplate('nav-page.html');
+
+$template = $twig->load('nav-page.html');
 
 
 /* build title & description the way you want according to $match
